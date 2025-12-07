@@ -1,8 +1,17 @@
 import { MessageCircle, Home, Inbox, Search, Settings } from "lucide-react"
+import { ChevronUp, User2 } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -62,6 +71,34 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton>
+                    <User2 /> Username
+                    <ChevronUp className="ml-auto" />
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side="top"
+                  className="min-w-[var(--radix-dropdown-menu-trigger-width)]"
+                >
+                  <DropdownMenuItem>
+                    <span>Toggle Dark Mode</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <span>Billing</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <span>Sign out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
     </Sidebar>
   )
 }
