@@ -1,19 +1,26 @@
+import { ArrowUp } from "lucide-react"
+import { useState } from "react";
+
 export default function ChatFooter() {
+  const [message, setMessage] = useState("");
   return (
     <div>
-      <form className="flex gap-2 items-center">
-        <input
-          type="text"
-          placeholder="Type a message..."
-          className="flex-1 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700"
-        >
-          Send
-        </button>
+      <form className="w-full overflow-hidden rounded-xl border border-border bg-background p-3 shadow-xs transition-all duration-200 focus-within:border-border hover:border-muted-foreground/50">
+        <div className="flex flex-row items-start gap-1 sm:gap-2">
+          <textarea
+            placeholder="Type a message..."
+            className="flex min-h-[80px] border ring-offset-background focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm w-full rounded-none border-none shadow-none outline-hidden field-sizing-fixed dark:bg-transparent grow resize-none border-none! bg-transparent p-2 text-sm outline-none ring-0 [-ms-overflow-style:none] [scrollbar-width:none] placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 [&::-webkit-scrollbar]:hidden"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+        </div>
+        <div className="flex items-center justify-end !border-top-0 border-t-0! p-0 shadow-none dark:border-0 dark:border-transparent!">
+          <button className={`inline-flex items-center justify-center text-sm font-medium [&_svg]:size-4 size-8 rounded-full transition-colors duration-200 ${message ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`} type="submit" data-testid="send-button" disabled={!message}>
+            <ArrowUp />
+          </button>
+        </div>
       </form>
     </div>
   )
 }
+
