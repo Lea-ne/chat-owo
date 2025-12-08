@@ -1,20 +1,33 @@
-export default function ChatBody({ messages }: { messages: any[] }) {
+// ChatBody.tsx
+import Thinking from "./thinking-load"
 
-
+export default function ChatBody({
+  messages,
+  isThinking,
+}: {
+  messages: { from: string; text: string }[];
+  isThinking: boolean;
+}) {
   return (
-      <div className="flex flex-col gap-4 md:gap-6">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`p-3 rounded-2xl break-words ${msg.from === "bot" ? "self-start max-w-[100%] md:max-w-[80%]" : "bg-primary text-primary-foreground max-w-[80%] self-end"
-            }`}
-          >
-            <p className="">{msg.text}</p>
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-col gap-4 md:gap-6">
+      {messages.map((msg, index) => (
+        <div
+          key={index}
+          className={`p-3 rounded-2xl break-words ${
+            msg.from === "bot"
+              ? "self-start max-w-[100%] md:max-w-[80%]"
+              : "bg-primary text-primary-foreground max-w-[80%] self-end"
+          }`}
+        >
+          <p>{msg.text}</p>
+        </div>
+      ))}
+
+      {isThinking && (
+        <div className="p-3 rounded-2xl self-start max-w-[80%]">
+          <Thinking />
+        </div>
+      )}
+    </div>
   );
 }
-
-
-

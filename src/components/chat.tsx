@@ -16,12 +16,14 @@ export default function Chat() {
   ]);
 
   const [input, setInput] = useState("");
+  const [isThinking, setIsThinking] = useState(false);
 
   const handleSend = async (text: string) => {
   if (!text.trim()) return;
 
   setMessages(prev => [...prev, { from: "user", text }]);
   setInput(""); // reset du champ
+  setIsThinking(true);
 
   try {
     const response = await fetch(
@@ -41,7 +43,10 @@ export default function Chat() {
     ]);
   } catch {
     setMessages(prev => [...prev, { from: "bot", text: "Oops! Something went wrong." }]);
-  }
+
+  } finally {
+    setIsThinking(false);
+  }  
 };
 
 
@@ -57,7 +62,7 @@ export default function Chat() {
     {/* Body scrollable (full width for proper scrollbar) */}
     <ScrollArea className="flex-1 min-h-0 w-full">
       <div className="w-full max-w-4xl mx-auto px-4">
-        <ChatBody messages={messages} />
+        <ChatBody messages={messages} isThinking={isThinking} />
       </div>
     </ScrollArea>
 
