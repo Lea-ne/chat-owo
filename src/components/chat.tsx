@@ -48,21 +48,23 @@ export default function Chat() {
 
 
   return (
-    <div className="flex flex-col h-full min-h-0">
-      {/* Header */}
-      <div className="px-4 py-3 flex-shrink-0">
-        <ChatHeader />
-      </div>
-
-      {/* Body scrollable */}
-      <ScrollArea className="flex-1 min-h-0 px-4">
-        <ChatBody messages={messages} />
-      </ScrollArea>
-
-      {/* Footer */}
-      <div className="px-4 py-3 flex-shrink-0">
-        <ChatFooter message={input} setMessage={setInput} onSend={handleSend} />
-      </div>
+  <div className="flex flex-col h-full min-h-0">
+    {/* Header */}
+    <div className="w-full max-w-4xl mx-auto px-4 py-3 flex-shrink-0">
+      <ChatHeader />
     </div>
-  )
+
+    {/* Body scrollable (full width for proper scrollbar) */}
+    <ScrollArea className="flex-1 min-h-0 w-full">
+      <div className="w-full max-w-4xl mx-auto px-4">
+        <ChatBody messages={messages} />
+      </div>
+    </ScrollArea>
+
+    {/* Footer */}
+    <div className="w-full max-w-4xl mx-auto px-4 py-3 flex-shrink-0">
+      <ChatFooter message={input} setMessage={setInput} onSend={handleSend} />
+    </div>
+  </div>
+)
 }

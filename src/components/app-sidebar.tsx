@@ -1,10 +1,9 @@
 //hooks
-import { useTheme } from "@/hooks/useTheme";
+import { useTheme } from "@/hooks/useTheme"; // hook for theme smitching to light/dark mode
 
 //icon
 import { MessageCircle, Home, Inbox, Search, Settings } from "lucide-react"
 import { ChevronUp, User2, Sun, MoonStar } from "lucide-react"
-
 
 //ui components
 import {
@@ -25,7 +24,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Button } from "./ui/button";
+
 
 // Menu items.
 const items = [
