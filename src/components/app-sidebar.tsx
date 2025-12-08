@@ -1,12 +1,18 @@
+//hooks
+import { useTheme } from "@/hooks/useTheme";
+
+//icon
 import { MessageCircle, Home, Inbox, Search, Settings } from "lucide-react"
-import { ChevronUp, User2 } from "lucide-react"
+import { ChevronUp, User2, Sun, MoonStar } from "lucide-react"
+
+
+//ui components
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
 
 import {
   Sidebar,
@@ -19,6 +25,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { Button } from "./ui/button";
 
 // Menu items.
 const items = [
@@ -50,6 +57,7 @@ const items = [
 ]
 
 export function AppSidebar() {
+  const { isDark, toggleTheme } = useTheme();
   return (
     <Sidebar>
       <SidebarContent>
@@ -85,8 +93,9 @@ export function AppSidebar() {
                   side="top"
                   className="min-w-[var(--radix-dropdown-menu-trigger-width)]"
                 >
-                  <DropdownMenuItem>
-                    <span>Toggle Dark Mode</span>
+                  <DropdownMenuItem onClick={toggleTheme}>
+                      {isDark ? <Sun/> : <MoonStar/>}
+                      <span>{isDark ? "Light Mode" : "Dark Mode"}</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <span>Billing</span>
