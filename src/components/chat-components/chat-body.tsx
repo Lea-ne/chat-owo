@@ -5,7 +5,7 @@ export default function ChatBody({
   messages,
   isThinking,
 }: {
-   messages: { from: string; text: string }[];
+   messages: { id: string; from: string; text: string; fullText?: string; typing?: boolean }[];
   isThinking: boolean;
 }) {
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -14,6 +14,22 @@ export default function ChatBody({
     // scroll automatique vers le bas à chaque changement
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isThinking]);
+
+
+  // helper : afficher curseur si message en cours de typing
+  const renderMessageText = (msg: typeof messages[number]) => {
+    if (msg.from === "bot" && msg.typing) {
+      // dernier caractère + curseur clignotant
+      return (
+        <span className="whitespace-pre-wrap">
+          {msg.text}
+          <span className="ml-1 inline-block animate-blink">|</span>
+        </span>
+      );
+    }
+    return <span className="whitespace-pre-wrap">{msg.text}</span>;
+  };
+  
 
   return (
     <div className="flex flex-col gap-4 md:gap-6">
@@ -26,7 +42,7 @@ export default function ChatBody({
               : "bg-primary text-primary-foreground max-w-[80%] self-end"
           }`}
         >
-          <p>{msg.text}</p>
+          <p>{renderMessageText(msg)}</p>
         </div>
       ))}
 

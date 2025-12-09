@@ -8,48 +8,85 @@ import ChatFooter from "./chat-components/chat-footer"
 import { useState } from "react";
 
 
+type Message = {
+  id: string;
+  from: "bot" | "user";
+  text: string;        // texte actuel (partiel pendant la saisie)
+  fullText?: string;   // texte complet (utilisé pour savoir quand terminer)
+  typing?: boolean;    // si en cours de saisie
+};
+
 export default function Chat() {
 
-
-  const [messages, setMessages] = useState([
-    { from: "bot", text: "Hi — I am your friendly chat assistant. Ask me anything." }
+  const [messages, setMessages] = useState<Message[]>([
+    { id: "init", from: "bot", text: "Hi — I am your friendly chat assistant. Ask me anything." }
   ]);
 
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
 
+  // helper : simulate "typing" du bot caractère-par-caractère
+  const typeBotMessage = async (fullText: string) => {
+    const id = Date.now().toString();
+    // ajouter message vide en mode typing
+    setMessages(prev => [...prev, { id, from: "bot", text: "", fullText, typing: true }]);
+
+    // boucle asynchrone qui ajoute un caractère à la fois
+    let i = 0;
+    while (i < fullText.length) {
+      // ajouter prochain caractère
+      i += 1;
+      const nextSlice = fullText.slice(0, i);
+      setMessages(prev => prev.map(m => (m.id === id ? { ...m, text: nextSlice } : m)));
+
+      // delay adaptatif : petit pause après les points/virgules/etc.
+      const ch = fullText[i - 1];
+      let delay = 20; // base ms par caractère
+      if (ch === "." || ch === "!" || ch === "?") delay = 200;
+      else if (ch === "," || ch === ";") delay = 80;
+      else if (ch === " ") delay = 8; // espace rapide
+      // await
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise(res => setTimeout(res, delay));
+    }
+
+    // fin de la saisie : enlever flag typing
+    setMessages(prev => prev.map(m => (m.id === id ? { ...m, typing: false } : m)));
+  };
+
   const handleSend = async (text: string) => {
-  if (!text.trim()) return;
+    if (!text.trim()) return;
 
-  setMessages(prev => [...prev, { from: "user", text }]);
-  setInput(""); // reset du champ
-  setIsThinking(true);
+    // ajouter message user immédiatement
+    setMessages(prev => [...prev, { id: Date.now().toString(), from: "user", text }]);
+    setInput(""); // reset du champ
+    setIsThinking(true);
 
-  try {
-    const response = await fetch(
-      "https://lelelelele.app.n8n.cloud/webhook-test/test-chat",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text })
-      }
-    );
+    try {
+      const response = await fetch(
+        "https://lelelelele.app.n8n.cloud/webhook-test/test-chat",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text })
+        }
+      );
 
-    const data = await response.json();
+      const data = await response.json();
+      const botText = (data && data.response) ? data.response : "No response";
 
-    setMessages(prev => [
-      ...prev,
-      { from: "bot", text: data.response || "No response" }
-    ]);
-  } catch {
-    setMessages(prev => [...prev, { from: "bot", text: "Oops! Something went wrong." }]);
+      // on arrête l'indicateur "thinking" à partir du moment où on commence à taper la réponse
+      setIsThinking(false);
 
-  } finally {
-    setIsThinking(false);
-  }  
-};
+      // lancer animation de typing (attend jusqu'à ce que ce soit fini)
+      await typeBotMessage(botText);
 
-
+    } catch (err) {
+      // si erreur, ajouter message d'erreur (pas d'animation)
+      setIsThinking(false);
+      setMessages(prev => [...prev, { id: Date.now().toString(), from: "bot", text: "Oops! Something went wrong." }]);
+    }  
+  };
 
 
   return (
