@@ -18,18 +18,18 @@ export default function ChatBody({
 
 
   // helper : afficher curseur si message en cours de typing
-  const renderMessageText = (msg: typeof messages[number]) => {
-    if (msg.from === "bot" && msg.typing) {
-      // dernier caractère + curseur clignotant
-      return (
-        <span className="whitespace-pre-wrap">
-          {msg.text}
-          <span className="ml-1 inline-block animate-blink">|</span>
-        </span>
-      );
-    }
-    return <span className="whitespace-pre-wrap">{msg.text}</span>;
-  };
+  // const renderMessageText = (msg: typeof messages[number]) => {
+  //   if (msg.from === "bot" && msg.typing) {
+  //     // dernier caractère + curseur clignotant
+  //     return (
+  //       <span className="whitespace-pre-wrap">
+  //         {msg.text}
+  //         <span className="ml-1 inline-block animate-blink">|</span>
+  //       </span>
+  //     );
+  //   }
+  //   return <span className="whitespace-pre-wrap">{msg.text}</span>;
+  // };
   
 
   return (
