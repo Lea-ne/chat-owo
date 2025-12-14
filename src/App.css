@@ -2,3 +2,37 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+#chat-body-class h2{
+  font-size: 24px;
+  font-weight: 600;
+  margin: 1.45rem 0 0.8rem 0;
+}
+#chat-body-class h3{
+  font-size: 20px;
+  font-weight: 600;
+  margin: 1.45rem 0 0.8rem 0;
+}
+#chat-body-class h4{
+  font-size: 16px;
+  font-weight: 600;
+  margin: 1.45rem 0 0.8rem 0;
+}
+
+#chat-body-class ul{
+  list-style: disc;
+  padding-left: 12px;
+  
+}
+#chat-body-class ol{
+  list-style: decimal;
+   padding-left: 16px;
+}
+
+#chat-body-class li{
+  margin-bottom: 0.5rem;
+}
+#chat-body-class p{
+  margin-bottom: 1rem;
+}

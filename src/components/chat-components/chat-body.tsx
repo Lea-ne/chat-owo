@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import Thinking from "./thinking-load";
+import WelcomeChat from "./welcome-chat";
 
 export default function ChatBody({
   messages,
@@ -32,7 +33,14 @@ export default function ChatBody({
   
 
   return (
-    <div className="flex flex-col gap-4 md:gap-6">
+    <div id="chat-body-class" className="flex flex-col gap-4 md:gap-6">
+
+      {/* if no messages, show welcome chat */}
+      {messages.length === 0 && !isThinking && (
+        <WelcomeChat />
+      )}
+
+      {/* Display messages */}
       {messages.map((msg, index) => (
         <div
           key={index}
@@ -42,10 +50,12 @@ export default function ChatBody({
               : "bg-primary text-primary-foreground max-w-[80%] self-end"
           }`}
         >
-          <p>{renderMessageText(msg)}</p>
+          {/* <p>{renderMessageText(msg)}</p> */}
+          <div dangerouslySetInnerHTML={{ __html: msg.text }} />
         </div>
       ))}
 
+      {/* if still thinking, show thinking indicator */}
       {isThinking && (
         <div className="p-3 rounded-2xl self-start max-w-[80%]">
           <Thinking />

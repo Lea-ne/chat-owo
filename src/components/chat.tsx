@@ -18,9 +18,7 @@ type Message = {
 
 export default function Chat() {
 
-  const [messages, setMessages] = useState<Message[]>([
-    { id: "init", from: "bot", text: "Hi — I am your friendly chat assistant. Ask me anything." }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
@@ -64,7 +62,8 @@ export default function Chat() {
 
     try {
       const response = await fetch(
-        "https://lelelelele.app.n8n.cloud/webhook-test/test-chat",
+        "https://n8n-latest-7wg9.onrender.com/webhook/104ac525-8849-4694-96d3-89bfba1d2401",
+        
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
